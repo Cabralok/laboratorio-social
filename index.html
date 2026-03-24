@@ -373,13 +373,13 @@ hr { border: none; border-top: 1px solid var(--border); margin: 20px 0; }
       &mdash; Prof. Luis Rodolfo Cabral, 2025
     </div>
 
-    <button class="btn-accept" onclick="aceptarTerminos(document.getElementById('chk-no-volver').checked)">&#x2705; Entendido &mdash; Ingresar al Laboratorio</button>
-    <div style="text-align:center;margin-top:10px">
+    <div style="text-align:center;margin-bottom:10px">
       <label style="font-size:0.78rem;color:var(--gray);cursor:pointer;display:inline-flex;align-items:center;gap:6px">
         <input type="checkbox" id="chk-no-volver" checked style="accent-color:var(--accent);width:14px;height:14px">
         No volver a mostrar en este dispositivo
       </label>
     </div>
+    <button class="btn-accept" onclick="aceptarTerminos()">&#x2705; Entendido &mdash; Ingresar al Laboratorio</button>
   </div>
 </div>
 
@@ -5715,11 +5715,14 @@ function cerrarModal() {
   document.getElementById('modal-terminos').style.display = 'none';
 }
 
-function aceptarTerminos(noVolver) {
+function aceptarTerminos() {
   cerrarModal();
-  if (noVolver) {
-    try { localStorage.setItem(TERMINOS_KEY, '1'); } catch(e) {}
-  }
+  try {
+    var chk = document.getElementById('chk-no-volver');
+    if (!chk || chk.checked) {
+      localStorage.setItem(TERMINOS_KEY, '1');
+    }
+  } catch(e) {}
 }
 
 (function checkTerminos() {
@@ -5734,3 +5737,4 @@ function aceptarTerminos(noVolver) {
     if (m) m.style.display = 'flex';
   }
 })();
+</script></body></html>
