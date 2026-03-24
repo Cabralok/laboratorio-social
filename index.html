@@ -373,7 +373,13 @@ hr { border: none; border-top: 1px solid var(--border); margin: 20px 0; }
       &mdash; Prof. Luis Rodolfo Cabral, 2025
     </div>
 
-    <button class="btn-accept" onclick="cerrarModal()">&#x2705; Entendido &mdash; Ingresar al Laboratorio</button>
+    <button class="btn-accept" onclick="aceptarTerminos(document.getElementById('chk-no-volver').checked)">&#x2705; Entendido &mdash; Ingresar al Laboratorio</button>
+    <div style="text-align:center;margin-top:10px">
+      <label style="font-size:0.78rem;color:var(--gray);cursor:pointer;display:inline-flex;align-items:center;gap:6px">
+        <input type="checkbox" id="chk-no-volver" checked style="accent-color:var(--accent);width:14px;height:14px">
+        No volver a mostrar en este dispositivo
+      </label>
+    </div>
   </div>
 </div>
 
@@ -5703,5 +5709,28 @@ function triggerAutosave() {
 })();
 
 // ── MODAL TÉRMINOS DE USO ──────────────────────────────────────────────
+var TERMINOS_KEY = 'lab_terminos_v1';
+
 function cerrarModal() {
-  documen
+  document.getElementById('modal-terminos').style.display = 'none';
+}
+
+function aceptarTerminos(noVolver) {
+  cerrarModal();
+  if (noVolver) {
+    try { localStorage.setItem(TERMINOS_KEY, '1'); } catch(e) {}
+  }
+}
+
+(function checkTerminos() {
+  try {
+    var aceptado = localStorage.getItem(TERMINOS_KEY);
+    if (!aceptado) {
+      var m = document.getElementById('modal-terminos');
+      if (m) m.style.display = 'flex';
+    }
+  } catch(e) {
+    var m = document.getElementById('modal-terminos');
+    if (m) m.style.display = 'flex';
+  }
+})();
